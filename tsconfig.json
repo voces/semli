@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "moduleResolution": "node",
+    "types": [
+      "lua-types/core/index",
+      "lua-types/core/coroutine",
+      "lua-types/core/global",
+      "lua-types/core/math",
+      "lua-types/core/metatable",
+      "lua-types/core/modules",
+      "lua-types/core/string",
+      "lua-types/core/table",
+      "lua-types/core/os",
+      "lua-types/special/5.1"
+    ],
+    "strict": true,
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "tstl": {
+    "luaTarget": "5.1",
+    "noImplicitSelf": true,
+    "luaBundleEntry": "src/index.ts",
+    "luaBundle": "bundle.lua"
+  }
+}
