@@ -1,6 +1,7 @@
+import type { Unit } from "../lib/Unit";
+
 import { newGlobalTrigger } from "../lib/Trigger";
 import { Timer } from "../lib/Timer";
-import { Unit } from "../lib/Unit";
 import { Player } from "../lib/Player";
 
 const hoverUnitMap = new Map<number, Unit>();
@@ -48,6 +49,7 @@ const update = (player: Player, i: number) => {
     player.setUIProgress("mp", main.getCurrentMP(), main.getMaxMP());
   } else gameapi.print_to_dialog(3, "does not have main");
 };
+export const getStatsUnit = (player: Player) => statsMap.get(player.id());
 
 newGlobalTrigger(
   EVENT.GAME_INIT,

@@ -1,6 +1,7 @@
+import type { Player } from "../lib/Player";
 import { Ability } from "../lib/Ability";
 import { Unit } from "../lib/Unit";
-import { linkUnitStats } from "./progress";
+import { getStatsUnit, linkUnitStats } from "./progress";
 
 export const linkUnit = (unit: Unit) => {
   const player = unit.owner();
@@ -16,3 +17,5 @@ export const linkUnit = (unit: Unit) => {
 
   for (let i = abilities.length; i < 10; i++) player.hideUI(`skill_btn_${i}`);
 };
+
+export const getMainUnit = (player: Player) => getStatsUnit(player);

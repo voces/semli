@@ -1,9 +1,11 @@
+import type { Unit } from "../lib/Unit";
+
 import { Group } from "../lib/Group";
 import { Player } from "../lib/Player";
 import { Position } from "../lib/Position";
 import { newGlobalTrigger } from "../lib/Trigger";
-import { Unit } from "../lib/Unit";
 import { linkHoverUnit } from "./progress";
+import { getMainUnit } from "./linkUnit";
 
 newGlobalTrigger(EVENT.MOUSE_MOVE_EVENT, (_, data) => {
   const pos = Position.fromHandle(data.__pointing_world_pos!);
@@ -23,4 +25,7 @@ newGlobalTrigger(EVENT.MOUSE_MOVE_EVENT, (_, data) => {
   });
 
   linkHoverUnit(player, nearest);
+
+  const main = getMainUnit(player);
+  if (main) main.face(main.angleTo(pos));
 });
