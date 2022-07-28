@@ -81,6 +81,7 @@ declare interface trigger_data {
   __unit_id?: number;
   __pointing_world_pos?: position;
   __role_id?: number;
+  __comp_name?: string;
 }
 
 declare interface trigger<Actor = unknown> {
@@ -144,6 +145,7 @@ declare const EVENT: {
   MOUSE_KEY_DOWN_EVENT: global_event;
   MOUSE_KEY_UP_EVENT: global_event;
   TIMEOUT: global_event;
+  TRIGGER_COMPONENT_EVENT: global_event;
 };
 
 declare interface position extends handle {
@@ -251,6 +253,12 @@ type damage_type = 1 | 2 | 3;
 type visibility = 1 | 2 | 3 | 4;
 
 declare const gameapi: {
+  set_btn_short_cut: (
+    this: void,
+    player: player,
+    button: string,
+    key: number,
+  ) => void;
   create_unit: (
     this: void,
     type: number,
@@ -437,7 +445,7 @@ declare function new_global_trigger<Actor = unknown>(
   this: void,
   triggerId: number,
   triggerName: string,
-  event: global_event,
+  event: global_event | [global_event, string],
   enabled: boolean,
 ): trigger<Actor>;
 

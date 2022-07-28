@@ -81,4 +81,8 @@ export class Player extends Handle<player> {
   linkUISkill(button: string, ability: Ability) {
     gameapi.set_skill_on_ui_comp(this.handle, ability.handle, button);
   }
+
+  mapButtonShortcut(button: string, key: number) {
+    gameapi.set_btn_short_cut(this.handle, button, key);
+  }
 }

@@ -1,4 +1,5 @@
 import "./mouse";
+import "./inventory";
 import { newGlobalTrigger } from "../lib/Trigger";
 import { linkUnit } from "./linkUnit";
 import { Unit } from "../lib/Unit";
@@ -6,12 +7,13 @@ import { linkUnitStats } from "./progress";
 import { Player } from "../lib/Player";
 import { Position } from "../lib/Position";
 
-newGlobalTrigger(EVENT.GAME_INIT, () =>
+newGlobalTrigger(EVENT.GAME_INIT, () => {
   Player.forEach((p) => {
     p.hideUI("hover");
     p.setMouseMoveSelect(false);
     p.setMouseClickSelect(false);
-  }));
+  });
+});
 
 const t = newGlobalTrigger(EVENT.TIMEOUT, () =>
   Player.forEach((p) => {
