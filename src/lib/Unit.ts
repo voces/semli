@@ -163,6 +163,10 @@ export class Unit extends Handle<unit> {
     return gameapi.get_icon_id_by_unit_type(this.handle.api_get_key());
   }
 
+  visibleTo(player: Player | Unit) {
+    return gameapi.get_visibility_of_unit(player.handle, this.handle);
+  }
+
   // getAbilitiesByType(type: ABILITY_TYPE) {
   //   const abilities: Ability[] = [];
 

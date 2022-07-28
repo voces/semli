@@ -15,7 +15,9 @@ newGlobalTrigger(EVENT.MOUSE_MOVE_EVENT, (_, data) => {
   let distance: number = 10000;
 
   Group.fromNearby(pos, 128).forEach((u) => {
-    if (u.owner().id() == player.id() && u.isHero()) return;
+    if (u.owner().id() == player.id() && u.isHero() || !u.visibleTo(player)) {
+      return;
+    }
 
     const d = u.position().distance(pos);
     if (d < distance) {

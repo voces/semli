@@ -253,6 +253,11 @@ type damage_type = 1 | 2 | 3;
 type visibility = 1 | 2 | 3 | 4;
 
 declare const gameapi: {
+  get_visibility_of_unit: (
+    this: void,
+    visibleTo: player | unit,
+    unit: unit,
+  ) => boolean;
   set_btn_short_cut: (
     this: void,
     player: player,
