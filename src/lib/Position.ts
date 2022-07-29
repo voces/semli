@@ -11,7 +11,7 @@ export class Position extends Handle<position> {
       return;
     }
 
-    super(globalapi.coord_to_point(x as any, y as any, z as any));
+    super(globalapi.coord_to_point(x, y, z));
   }
 
   distance(position: Position) {

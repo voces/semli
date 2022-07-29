@@ -48,7 +48,7 @@ export const newModifierTrigger = (
 };
 
 export const newGlobalTrigger = <Actor = unknown>(
-  event: global_event | [global_event, string],
+  event: global_event | [global_event, string | number],
   callback: (
     this: void,
     actor: Actor,

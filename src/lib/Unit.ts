@@ -167,6 +167,16 @@ export class Unit extends Handle<unit> {
     return gameapi.get_visibility_of_unit(player.handle, this.handle);
   }
 
+  walkTo(position: Position) {
+    this.handle.api_release_command(
+      gameapi.create_unit_command_move_to_pos(position.handle),
+    );
+  }
+
+  isMoving() {
+    return this.handle.api_is_moving();
+  }
+
   // getAbilitiesByType(type: ABILITY_TYPE) {
   //   const abilities: Ability[] = [];
 

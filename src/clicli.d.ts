@@ -16,6 +16,8 @@ type ABILITY_TYPE =
 
 declare interface unit extends handle {
   __unit: never;
+  api_is_moving: (this: void) => boolean;
+  api_release_command: (this: void, command: command) => void;
   api_get_float_attr: (this: void, attribute: string) => Fix32;
   api_get_abilities_by_type: (
     this: void,
@@ -61,6 +63,10 @@ declare interface unit extends handle {
     amount: Fix32,
     mode: "ATTR_BASE" | "ATTR_BONUS",
   ) => void;
+}
+
+declare interface command extends handle {
+  __command: never;
 }
 
 declare interface ability extends handle {
@@ -253,6 +259,7 @@ type damage_type = 1 | 2 | 3;
 type visibility = 1 | 2 | 3 | 4;
 
 declare const gameapi: {
+  create_unit_command_move_to_pos: (this: void, position: position) => command;
   get_visibility_of_unit: (
     this: void,
     visibleTo: player | unit,
@@ -423,7 +430,12 @@ declare const globalapi: {
   ) => Fix32;
   sqrt: (this: void, value: Fix32 | int) => number;
   fixed_to_str: (this: void, value: Fix32) => string;
-  coord_to_point: (this: void, x: Fix32, y: Fix32, unknown: Fix32) => position;
+  coord_to_point: (
+    this: void,
+    x: Fix32 | number,
+    y: Fix32 | number,
+    unknown: Fix32 | number,
+  ) => position;
   create_circular_shape: (this: void, radius: Fix32) => circle;
   get_related_ability: (this: void, modifier: modifier) => ability | undefined;
   is_unit_alive: (this: void, unit: unit) => boolean;
@@ -450,7 +462,7 @@ declare function new_global_trigger<Actor = unknown>(
   this: void,
   triggerId: number,
   triggerName: string,
-  event: global_event | [global_event, string],
+  event: global_event | [global_event, string | number],
   enabled: boolean,
 ): trigger<Actor>;
 
