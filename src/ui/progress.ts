@@ -53,5 +53,5 @@ export const getStatsUnit = (player: Player) => statsMap.get(player.id());
 
 newGlobalTrigger(
   EVENT.GAME_INIT,
-  () => new Timer(1, () => Player.forEach((p, id) => update(p, id))),
+  () => new Timer(0.25, () => Player.forEach((p, id) => update(p, id))),
 );

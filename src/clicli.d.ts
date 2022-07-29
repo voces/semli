@@ -16,7 +16,9 @@ type ABILITY_TYPE =
 
 declare interface unit extends handle {
   __unit: never;
+  api_check_has_ability_type: (this: void, abilityType: number) => boolean;
   api_is_moving: (this: void) => boolean;
+  api_is_in_battle_state: (this: void) => boolean;
   api_release_command: (this: void, command: command) => void;
   api_get_float_attr: (this: void, attribute: string) => Fix32;
   api_get_abilities_by_type: (
@@ -151,7 +153,10 @@ declare const EVENT: {
   MOUSE_KEY_DOWN_EVENT: global_event;
   MOUSE_KEY_UP_EVENT: global_event;
   TIMEOUT: global_event;
+  REPEAT_TIMEOUT: global_event;
   TRIGGER_COMPONENT_EVENT: global_event;
+  ABILITY_OBTAIN: ability_event;
+  ABILITY_LOSE: ability_event;
 };
 
 declare interface position extends handle {
@@ -259,6 +264,7 @@ type damage_type = 1 | 2 | 3;
 type visibility = 1 | 2 | 3 | 4;
 
 declare const gameapi: {
+  unit_is_exist: (this: void, unit: unit) => boolean;
   create_unit_command_move_to_pos: (this: void, position: position) => command;
   get_visibility_of_unit: (
     this: void,

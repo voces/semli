@@ -11,10 +11,22 @@ export class Position extends Handle<position> {
       return;
     }
 
-    super(globalapi.coord_to_point(x, y, z));
+    super(globalapi.coord_to_point(Fix32(x), Fix32(y), Fix32(z)));
   }
 
   distance(position: Position) {
     return gameapi.get_points_dis(this.handle, position.handle).float();
+  }
+
+  x() {
+    return globalapi.get_fixed_coord_index(this.handle, 0).float();
+  }
+
+  y() {
+    return globalapi.get_fixed_coord_index(this.handle, 2).float();
+  }
+
+  z() {
+    return globalapi.get_fixed_coord_index(this.handle, 1).float();
   }
 }

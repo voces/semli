@@ -177,6 +177,18 @@ export class Unit extends Handle<unit> {
     return this.handle.api_is_moving();
   }
 
+  isBattling() {
+    return this.handle.api_is_in_battle_state();
+  }
+
+  hasAbility(abilityType: number) {
+    return this.handle.api_check_has_ability_type(abilityType);
+  }
+
+  exists() {
+    return gameapi.unit_is_exist(this.handle);
+  }
+
   // getAbilitiesByType(type: ABILITY_TYPE) {
   //   const abilities: Ability[] = [];
 
