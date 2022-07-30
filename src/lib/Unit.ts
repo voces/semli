@@ -173,6 +173,12 @@ export class Unit extends Handle<unit> {
     );
   }
 
+  attackTo(position: Position) {
+    this.handle.api_release_command(
+      gameapi.create_unit_command_attack_move(position.handle),
+    );
+  }
+
   isMoving() {
     return this.handle.api_is_moving();
   }

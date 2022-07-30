@@ -6,6 +6,7 @@ import { Unit } from "../lib/Unit";
 import { linkUnitStats } from "./progress";
 import { Player } from "../lib/Player";
 import { Position } from "../lib/Position";
+import { UNIT_TYPE } from "../constants";
 
 newGlobalTrigger(EVENT.GAME_INIT, () => {
   Player.forEach((p) => {
@@ -17,7 +18,7 @@ newGlobalTrigger(EVENT.GAME_INIT, () => {
 
 const t = newGlobalTrigger(EVENT.TIMEOUT, () =>
   Player.forEach((p) => {
-    const u = new Unit(134261143, p, new Position());
+    const u = new Unit(UNIT_TYPE.HERO, p, new Position());
     p.follow(u);
     linkUnitStats(p, u);
     linkUnit(u);

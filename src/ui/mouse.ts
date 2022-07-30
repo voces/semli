@@ -32,10 +32,10 @@ newGlobalTrigger(EVENT.MOUSE_MOVE_EVENT, (_, data) => {
   linkHoverUnit(player, nearest);
 
   const main = getMainUnit(player);
-  if (main) {
+  if (main && main.isAlive()) {
     if (mouseMap.get(data.__role_id!)) {
       main.walkTo(pos);
-      main.playAnimation("run", { loop: true });
+      // main.playAnimation("run", { loop: true });
     } else if (!main.isMoving()) main.face(main.angleTo(pos), 125);
   }
 });

@@ -1,14 +1,15 @@
+import { ABILITY_TYPE, MODEL } from "../constants";
 import { Group } from "../lib/Group";
 import { SpecialEffect } from "../lib/SpecialEffect";
 import { newAbilityTrigger } from "../lib/Trigger";
 
-newAbilityTrigger(134271975, EVENT.ABILITY_PS_START, (ability) => {
-  new SpecialEffect(102135, ability.unit(), {
+newAbilityTrigger(ABILITY_TYPE.FIREBALL, EVENT.ABILITY_PS_START, (ability) => {
+  new SpecialEffect(MODEL.HAND_FIRE, ability.unit(), {
     attachPoint: "hand1",
     scale: 0.07,
     duration: 1,
   });
-  new SpecialEffect(102135, ability.unit(), {
+  new SpecialEffect(MODEL.HAND_FIRE, ability.unit(), {
     attachPoint: "hand2",
     scale: 0.07,
     duration: 1,
@@ -18,7 +19,7 @@ newAbilityTrigger(134271975, EVENT.ABILITY_PS_START, (ability) => {
   ability.unit().face(a, 125);
 });
 
-newAbilityTrigger(134271975, EVENT.ABILITY_SP_END, (ability) => {
+newAbilityTrigger(ABILITY_TYPE.FIREBALL, EVENT.ABILITY_SP_END, (ability) => {
   const a = ability.unit().angleTo(ability.owner().mousePosition());
   ability.unit().face(a, 125);
   const p = ability.createProjectileOnSocket(a);
@@ -31,7 +32,7 @@ newAbilityTrigger(134271975, EVENT.ABILITY_SP_END, (ability) => {
       p.delete();
       Group.fromNearby(unit.position(), ability.kvFloat("splash")).forEach(
         (u) => {
-          new SpecialEffect(101844, u, {
+          new SpecialEffect(MODEL.FIRE_EXPLOSION, u, {
             attachPoint: "blood",
             scale: 0.7,
             proportionalScale: false,
@@ -45,7 +46,7 @@ newAbilityTrigger(134271975, EVENT.ABILITY_SP_END, (ability) => {
       );
     },
     terrainCollide: () => {
-      new SpecialEffect(101844, p.position(), { scale: 0.7 });
+      new SpecialEffect(MODEL.FIRE_EXPLOSION, p.position(), { scale: 0.7 });
       p.delete();
     },
   });

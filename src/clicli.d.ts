@@ -266,6 +266,7 @@ type visibility = 1 | 2 | 3 | 4;
 declare const gameapi: {
   unit_is_exist: (this: void, unit: unit) => boolean;
   create_unit_command_move_to_pos: (this: void, position: position) => command;
+  create_unit_command_attack_move: (this: void, position: position) => command;
   get_visibility_of_unit: (
     this: void,
     visibleTo: player | unit,
