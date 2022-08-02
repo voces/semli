@@ -1,6 +1,13 @@
 import { ABILITY_TYPE, MODEL } from "../constants";
 import { SpecialEffect } from "../lib/SpecialEffect";
 import { newAbilityTrigger } from "../lib/Trigger";
+import { set } from "./store";
+
+const damageCalc = set(
+  ABILITY_TYPE.FIREBOLT,
+  "damage",
+  (ability) => 4.5 + 0.6 * ability.level() ** 1.5,
+);
 
 newAbilityTrigger(ABILITY_TYPE.FIREBOLT, EVENT.ABILITY_PS_START, (ability) => {
   new SpecialEffect(MODEL.HAND_FIRE, ability.unit(), {
@@ -35,7 +42,7 @@ newAbilityTrigger(ABILITY_TYPE.FIREBOLT, EVENT.ABILITY_SP_END, (ability) => {
       });
       ability.unit().damageTarget(
         unit,
-        4.5 + 0.6 * ability.level() ** 1.5,
+        damageCalc(ability),
         2,
       );
     },

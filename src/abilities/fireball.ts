@@ -2,6 +2,13 @@ import { ABILITY_TYPE, MODEL } from "../constants";
 import { Group } from "../lib/Group";
 import { SpecialEffect } from "../lib/SpecialEffect";
 import { newAbilityTrigger } from "../lib/Trigger";
+import { set } from "./store";
+
+const damageCalc = set(
+  ABILITY_TYPE.FIREBALL,
+  "damage",
+  (ability) => -2.5 + 2.6 * (ability.level() + 2) ** 1.47,
+);
 
 newAbilityTrigger(ABILITY_TYPE.FIREBALL, EVENT.ABILITY_PS_START, (ability) => {
   new SpecialEffect(MODEL.HAND_FIRE, ability.unit(), {
@@ -32,14 +39,15 @@ newAbilityTrigger(ABILITY_TYPE.FIREBALL, EVENT.ABILITY_SP_END, (ability) => {
       p.delete();
       Group.fromNearby(unit.position(), ability.kvFloat("splash")).forEach(
         (u) => {
+          if (!ability.unit().isEnemy(u)) return;
           new SpecialEffect(MODEL.FIRE_EXPLOSION, u, {
             attachPoint: "blood",
             scale: 0.7,
             proportionalScale: false,
           });
-          ability.unit().isEnemy(u) && ability.unit().damageTarget(
+          ability.unit().damageTarget(
             u,
-            -2.5 + 2.6 * (ability.level() + 2) ** 1.47,
+            damageCalc(ability),
             2,
           );
         },

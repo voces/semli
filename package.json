@@ -1,12 +1,13 @@
 {
-  "name": "clicli-ts-template",
+  "name": "duels",
   "version": "0.0.1",
   "description": "",
   "scripts": {
     "build": "tstl",
+    "build-watch": "tstl --watch",
     "copy_old": "rsync -av dist/ /mnt/d/CliCli/game/LocalData/MapName001/script/ts",
     "copy": "cp dist/bundle.lua /mnt/d/CliCli/game/LocalData/MapName001/script/ts/index.lua",
-    "buildAndCopy": "npm run build && npm run copy"
+    "build-and-copy": "npm run build && npm run copy"
   },
   "author": "",
   "license": "ISC",

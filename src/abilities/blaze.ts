@@ -3,6 +3,13 @@ import { Rectangle } from "../lib/Rectangle";
 import { SpecialEffect } from "../lib/SpecialEffect";
 import { Timer } from "../lib/Timer";
 import { newAbilityTrigger, newModifierTrigger } from "../lib/Trigger";
+import { set } from "./store";
+
+const damageCalc = set(
+  ABILITY_TYPE.BLAZE,
+  "damage",
+  (ability) => (ability.level() + 2) ** 1.25 / 1.97,
+);
 
 newAbilityTrigger(ABILITY_TYPE.BLAZE, EVENT.ABILITY_PS_START, (ability) => {
   new SpecialEffect(MODEL.HAND_FIRE, ability.unit(), {
@@ -38,6 +45,7 @@ newModifierTrigger(
   MODIFIER_TYPE.BLAZE,
   EVENT.MODIFIER_CYCLE_TRIGGER,
   (modifier) => {
+    const ability = modifier.ability();
     new SpecialEffect(MODEL.LIGHT_FIRE_PATCH, modifier.receiver().position(), {
       duration: 10,
       scale: 0.08,
@@ -50,7 +58,11 @@ newModifierTrigger(
     new Timer(0.5, () => {
       rect.units().forEach((u) => {
         if (u.isEnemy(modifier.receiver())) {
-          modifier.receiver().damageTarget(u, 1, 2);
+          modifier.receiver().damageTarget(
+            u,
+            (ability ? damageCalc(ability) : 2) * 0.5,
+            2,
+          );
         }
       });
     }, 20);

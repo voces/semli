@@ -36,7 +36,9 @@ newGlobalTrigger(EVENT.MOUSE_MOVE_EVENT, (_, data) => {
     if (mouseMap.get(data.__role_id!)) {
       main.walkTo(pos);
       // main.playAnimation("run", { loop: true });
-    } else if (!main.isMoving()) main.face(main.angleTo(pos), 125);
+    } else if (!main.isMoving() && !main.isBattling()) {
+      main.face(main.angleTo(pos), 125);
+    }
   }
 });
 

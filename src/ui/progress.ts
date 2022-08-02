@@ -31,6 +31,7 @@ export const linkUnitStats = (player: Player, unit: Unit | undefined) => {
   statsMap.set(player.id(), unit);
   player.setUIProgress("hp", unit.getCurrentHP(), unit.getMaxHP());
   player.setUIProgress("mp", unit.getCurrentMP(), unit.getMaxMP());
+  player.setUIProgress("xp_bar", unit.xpPercentOfLevel(), 1);
 };
 
 const update = (player: Player, i: number) => {
@@ -46,8 +47,17 @@ const update = (player: Player, i: number) => {
   const main = statsMap.get(i);
   if (main) {
     player.setUIProgress("hp", main.getCurrentHP(), main.getMaxHP());
+    player.setUIText(
+      "hp_text",
+      `${Math.round(main.getCurrentHP())}/${Math.round(main.getMaxHP())}`,
+    );
     player.setUIProgress("mp", main.getCurrentMP(), main.getMaxMP());
-  } else gameapi.print_to_dialog(3, "does not have main");
+    player.setUIText(
+      "mp_text",
+      `${Math.round(main.getCurrentMP())}/${Math.round(main.getMaxMP())}`,
+    );
+    player.setUIProgress("xp_bar", main.xpPercentOfLevel(), 1);
+  }
 };
 export const getStatsUnit = (player: Player) => statsMap.get(player.id());
 

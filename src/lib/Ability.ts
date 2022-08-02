@@ -60,4 +60,12 @@ export class Ability extends Handle<ability> {
       1,
     ));
   }
+
+  abilityType() {
+    return this.handle.api_get_ability_id();
+  }
+
+  getDescription() {
+    return this.handle.api_get_str_attr("desc");
+  }
 }

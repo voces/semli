@@ -16,6 +16,7 @@ type ABILITY_TYPE =
 
 declare interface unit extends handle {
   __unit: never;
+  api_revive: (this: void, position: position) => void;
   api_check_has_ability_type: (this: void, abilityType: number) => boolean;
   api_is_moving: (this: void) => boolean;
   api_is_in_battle_state: (this: void) => boolean;
@@ -51,6 +52,7 @@ declare interface unit extends handle {
   ) => void;
   /** Returns type. */
   api_get_key: (this: void) => number;
+  api_get_id: (this: void) => number;
   is_hero: boolean;
   get_icon: () => string;
   api_set_attr_by_attr_element: (
@@ -75,6 +77,8 @@ declare interface ability extends handle {
   __ability: never;
   api_get_owner: (this: void) => unit;
   api_get_level: (this: void) => int;
+  api_get_ability_id: (this: void) => int;
+  api_get_str_attr: (this: void, attribute: string) => string;
 }
 
 declare interface modifier extends handle {
@@ -90,6 +94,8 @@ declare interface trigger_data {
   __pointing_world_pos?: position;
   __role_id?: number;
   __comp_name?: string;
+  __target_unit?: unit;
+  __source_unit?: unit;
 }
 
 declare interface trigger<Actor = unknown> {
@@ -157,6 +163,8 @@ declare const EVENT: {
   TRIGGER_COMPONENT_EVENT: global_event;
   ABILITY_OBTAIN: ability_event;
   ABILITY_LOSE: ability_event;
+  UNIT_REMOVE: global_event;
+  UNIT_DIE: global_event;
 };
 
 declare interface position extends handle {
@@ -454,6 +462,16 @@ declare const python: {
     this: void,
     array: T[],
   ) => LuaIterable<LuaMultiReturn<[number, T]>>;
+  // fix32: Fix32,
+  // as_attrgetter: <T>(this: void, obj: T) => T;
+  // as_itemgetter: <T>(this: void, obj: T) => T;
+  // iterex
+  // as_function
+  // Fix32Vec3
+  // Fix32
+  // fix32vec3
+  // iter
+  // none
 };
 
 declare function new_ability_trigger(

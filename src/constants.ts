@@ -1,3 +1,4 @@
+// TODO: There's a PLAYER_MAX
 export const MAX_PLAYERS = 36;
 
 export const MOUSE = {
@@ -21,7 +22,7 @@ export const ABILITY_TYPE = {
 
 export const MODIFIER_TYPE = {
   BLAZE: 134224953,
-  THUNDER_STORM: 134224953,
+  THUNDER_STORM: 134246117,
 };
 
 export const MODEL = {

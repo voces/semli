@@ -18,7 +18,7 @@ newGlobalTrigger(EVENT.GAME_INIT, () => {
 
 const t = newGlobalTrigger(EVENT.TIMEOUT, () =>
   Player.forEach((p) => {
-    const u = new Unit(UNIT_TYPE.HERO, p, new Position());
+    const u = new Unit(UNIT_TYPE.HERO, p, new Position(224, -768));
     p.follow(u);
     linkUnitStats(p, u);
     linkUnit(u);

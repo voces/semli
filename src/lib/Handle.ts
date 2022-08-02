@@ -1,24 +1,24 @@
-const map = new WeakMap<handle, Handle<any>>();
+const map = new WeakMap<any, Handle<any>>();
 
 export class Handle<T extends handle> {
   public readonly handle: T;
 
   private static initHandle: handle | undefined;
 
-  protected constructor(handle?: T) {
+  protected constructor(handle?: T, key?: unknown) {
     this.handle = handle === undefined ? (Handle.initHandle as T) : handle;
-    map.set(this.handle, this);
+    map.set(key ?? this.handle, this);
   }
 
   protected static initFromHandle() {
     return Handle.initHandle !== undefined;
   }
 
-  static _fromHandle(handle: handle) {
-    const obj = map.get(handle);
+  static _fromHandle(handle: handle, key?: unknown) {
+    const obj = map.get(key ?? handle);
     if (obj !== undefined) return obj;
     Handle.initHandle = handle;
-    const newObj = new this();
+    const newObj = new this(undefined, key);
     Handle.initHandle = undefined;
     return newObj;
   }
@@ -26,3 +26,4 @@ export class Handle<T extends handle> {
 
 let id = 73663000;
 export const consumeId = () => id++;
+export const clearHandle = (handle: unknown) => map.delete(handle);

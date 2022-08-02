@@ -2,6 +2,13 @@ import { ABILITY_TYPE, MODEL, MODIFIER_TYPE } from "../constants";
 import { Group } from "../lib/Group";
 import { SpecialEffect } from "../lib/SpecialEffect";
 import { newAbilityTrigger, newModifierTrigger } from "../lib/Trigger";
+import { set } from "./store";
+
+const damageCalc = set(
+  ABILITY_TYPE.THUNDER_STORM,
+  "damage",
+  (ability) => 40.5 + 10 * ability.level() ** 1.15,
+);
 
 newAbilityTrigger(
   ABILITY_TYPE.THUNDER_STORM,
@@ -51,9 +58,10 @@ newModifierTrigger(
       scale: 0.5,
       proportionalScale: false,
     });
+    const ability = modifier.ability();
     modifier.receiver().damageTarget(
       unit,
-      40.5 + 10 * (modifier.ability()?.level() ?? 1) ** 1.15,
+      ability ? damageCalc(ability) : 50,
       2,
     );
   },

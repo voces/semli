@@ -3,10 +3,11 @@ import type { Ability } from "./Ability";
 import { Handle } from "./Handle";
 import { Player } from "./Player";
 import { Position } from "./Position";
+import { SpecialEffect } from "./SpecialEffect";
 
 export class Unit extends Handle<unit> {
   static fromHandle(handle: unit) {
-    return this._fromHandle(handle) as Unit;
+    return this._fromHandle(handle, `unit-${handle.api_get_id()}`) as Unit;
   }
 
   constructor(
@@ -20,14 +21,14 @@ export class Unit extends Handle<unit> {
       return;
     }
 
-    super(
-      gameapi.create_unit(
-        type,
-        position.handle,
-        Fix32(orientation),
-        player.handle,
-      ),
+    const unit = gameapi.create_unit(
+      type,
+      position.handle,
+      Fix32(orientation),
+      player.handle,
     );
+
+    super(unit, `unit-${unit.api_get_id()}`);
   }
 
   position() {
@@ -193,6 +194,41 @@ export class Unit extends Handle<unit> {
 
   exists() {
     return gameapi.unit_is_exist(this.handle);
+  }
+
+  revive(position?: Position) {
+    const pos = position?.handle ?? this.handle.api_get_position();
+    this.handle.api_revive(pos);
+  }
+
+  private _xp = 0;
+
+  xp(value?: number) {
+    if (typeof value === "number") this._xp = value;
+    return this._xp;
+  }
+
+  addXp(value: number) {
+    const prevLevel = this.level();
+    this._xp = this._xp + value;
+    const nextLevel = this.level();
+
+    if (nextLevel > prevLevel) {
+      new SpecialEffect(101919, this.position());
+    }
+
+    return this._xp;
+  }
+
+  xpPercentOfLevel() {
+    const level = this.level();
+    const min = (1 - (5 / 4) ** (level - 1)) * -2048;
+    const max = (1 - (5 / 4) ** level) * -2048;
+    return (this._xp - min) / (max - min);
+  }
+
+  level() {
+    return Math.floor(Math.log(1 - this._xp * -1 / 2048) / Math.log(5 / 4)) + 1;
   }
 
   // getAbilitiesByType(type: ABILITY_TYPE) {
