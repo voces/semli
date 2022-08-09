@@ -1,3 +1,4 @@
+import { Item } from "../lib/Item";
 import { Position } from "../lib/Position";
 import { newGlobalTrigger } from "../lib/Trigger";
 import { Unit } from "../lib/Unit";
@@ -11,5 +12,6 @@ newGlobalTrigger(EVENT.UNIT_DIE, (_, data) => {
 
   if (killingUnit.isHero()) {
     killingUnit.addXp(32 * (9 / 8) ** (dyingUnit.level() - 1));
+    new Item(10000, killingUnit);
   }
 });

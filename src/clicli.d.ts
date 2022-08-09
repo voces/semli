@@ -14,8 +14,19 @@ type ABILITY_TYPE =
   | ABILITY_TYPE_GENERAL
   | ABILITY_TYPE_HERO;
 
+type BAG_SLOT_TYPE_INVENTORY = 0;
+type BAG_SLOT_TYPE_BAG = 1;
+type BAG_SLOT_TYPE = BAG_SLOT_TYPE_INVENTORY | BAG_SLOT_TYPE_BAG;
+
 declare interface unit extends handle {
   __unit: never;
+  api_shift_item: (
+    this: void,
+    item: item,
+    slotType: BAG_SLOT_TYPE,
+    slot: number,
+  ) => void;
+  api_add_item: (this: void, itemType: number) => void;
   api_revive: (this: void, position: position) => void;
   api_check_has_ability_type: (this: void, abilityType: number) => boolean;
   api_is_moving: (this: void) => boolean;
@@ -67,6 +78,11 @@ declare interface unit extends handle {
     amount: Fix32,
     mode: "ATTR_BASE" | "ATTR_BONUS",
   ) => void;
+}
+
+declare interface item extends handle {
+  __item: never;
+  api_drop_self: (this: void, position: position, stacks?: number) => void;
 }
 
 declare interface command extends handle {
@@ -272,6 +288,12 @@ type damage_type = 1 | 2 | 3;
 type visibility = 1 | 2 | 3 | 4;
 
 declare const gameapi: {
+  create_item_by_id: (
+    this: void,
+    position: position,
+    itemType: number,
+    owner: player,
+  ) => item;
   unit_is_exist: (this: void, unit: unit) => boolean;
   create_unit_command_move_to_pos: (this: void, position: position) => command;
   create_unit_command_attack_move: (this: void, position: position) => command;
@@ -328,6 +350,12 @@ declare const gameapi: {
     this: void,
     player: player,
     ability: ability,
+    framename: string,
+  ) => void;
+  set_item_on_ui_comp: (
+    this: void,
+    player: player,
+    item: item,
     framename: string,
   ) => void;
   get_icon_id_by_unit_type: (this: void, unitType: number) => string;

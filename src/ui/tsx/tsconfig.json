@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.json",
+  "include": ["./"],
+  "exclude": [],
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "createElement",
+    "jsxFragmentFactory": "Fragment",
+    "types": [
+      "@types/node"
+    ]
+  }
+}

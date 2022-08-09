@@ -10,6 +10,7 @@
     "outDir": "dist"
   },
   "include": ["src"],
+  "exclude": ["src/ui/tsx"],
   "tstl": {
     "luaTarget": "5.1",
     "noImplicitSelf": true,

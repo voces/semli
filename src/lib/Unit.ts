@@ -4,6 +4,7 @@ import { Handle } from "./Handle";
 import { Player } from "./Player";
 import { Position } from "./Position";
 import { SpecialEffect } from "./SpecialEffect";
+import type { Item } from "./Item";
 
 export class Unit extends Handle<unit> {
   static fromHandle(handle: unit) {
@@ -201,6 +202,8 @@ export class Unit extends Handle<unit> {
     this.handle.api_revive(pos);
   }
 
+  // Custom
+
   private _xp = 0;
 
   xp(value?: number) {
@@ -229,6 +232,55 @@ export class Unit extends Handle<unit> {
 
   level() {
     return Math.floor(Math.log(1 - this._xp * -1 / 2048) / Math.log(5 / 4)) + 1;
+  }
+
+  private _inventory: Record<number, Item | undefined> = {};
+
+  handledItem: Item | undefined;
+
+  addItem(item: Item, slot?: number) {
+    // Clear slot if already in inventory
+    for (let i = 0; i < 128; i++) {
+      if (item === this._inventory[i]) {
+        this._inventory[i] = undefined;
+        i = 128;
+      }
+    }
+
+    // Designated slot: transfer item currently in that slot to handled item
+    if (typeof slot === "number") {
+      if (this._inventory[slot] !== undefined) {
+        // Drop the currently handled item if there already is one
+        if (this.handledItem) {
+          this.handledItem.handle.api_drop_self(this.handle.api_get_position());
+        }
+        this.handledItem = this._inventory[slot];
+      }
+      this._inventory[slot] = item;
+      gameapi.print_to_dialog(3, `ashift item ${slot + 1}`);
+      this.handle.api_shift_item(item.handle, 1, slot + 1);
+      return;
+    }
+
+    // Just add item to first available slot
+    for (let i = 0; i < 128; i++) {
+      if (this._inventory[i] === undefined) {
+        this._inventory[i] = item;
+        if (i < 3) {
+          gameapi.set_item_on_ui_comp(
+            this.handle.api_get_role(),
+            item.handle,
+            `equip_slot_${i + 1}`,
+          );
+        }
+        gameapi.print_to_dialog(3, `bshift item ${i + 1}`);
+        this.handle.api_shift_item(item.handle, 1, i + 1);
+        return;
+      }
+    }
+
+    // No slots available: drop it on the ground
+    item.handle.api_drop_self(this.handle.api_get_position());
   }
 
   // getAbilitiesByType(type: ABILITY_TYPE) {

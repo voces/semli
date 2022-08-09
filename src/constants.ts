@@ -1,5 +1,6 @@
 // TODO: There's a PLAYER_MAX
 export const MAX_PLAYERS = 36;
+export const NEUTRAL_FRIENDLY = 32;
 
 export const MOUSE = {
   LEFT: 240,
