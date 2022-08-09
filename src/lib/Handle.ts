@@ -1,9 +1,9 @@
 const map = new WeakMap<any, Handle<any>>();
 
-export class Handle<T extends handle> {
+export class Handle<T extends LuaUserdata> {
   public readonly handle: T;
 
-  private static initHandle: handle | undefined;
+  private static initHandle: LuaUserdata | undefined;
 
   protected constructor(handle?: T, key?: unknown) {
     this.handle = handle === undefined ? (Handle.initHandle as T) : handle;
@@ -14,7 +14,7 @@ export class Handle<T extends handle> {
     return Handle.initHandle !== undefined;
   }
 
-  static _fromHandle(handle: handle, key?: unknown) {
+  static _fromHandle(handle: LuaUserdata, key?: unknown) {
     const obj = map.get(key ?? handle);
     if (obj !== undefined) return obj;
     Handle.initHandle = handle;
