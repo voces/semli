@@ -1,9 +1,8 @@
 /// <reference types="../types" />
-import { inspect } from "util";
 import { mkdir, rm, writeFile } from "fs/promises";
 import { render } from "basic-pragma";
 import { App } from "../src/App";
-import { Node } from "./adapter";
+import { Node } from "./nodes/createNode";
 import "./adapter";
 
 globalThis.print = console.log;
